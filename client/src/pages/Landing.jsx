@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import main from '../assets/images/secure_login.svg';
 import { Logo } from '../components';
 import Wrapper from '../assets/wrappers/LandingPage';
@@ -19,9 +20,9 @@ function Landing() {
             single-origin coffee chia. Aesthetic post-ironic venmo, quinoa lo-fi tote bag
             adaptogen everyday carry meggings +1 brunch narwhal.
           </p>
-          <button to='/register' className='btn btn-hero'>
+          <Link to='/register' className='btn btn-hero'>
             Login/Register
-          </button>
+          </Link>
         </div>
         <img src={main} alt='job hunt' className='img main-img' />
       </div>
