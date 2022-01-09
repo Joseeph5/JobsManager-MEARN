@@ -1,7 +1,10 @@
-import { useState, useEffect, useReducer } from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
 import { Logo, FormRow, Alert } from '../components';
 import Wrapper from '../assets/wrappers/RegisterPage';
+import { CLEAR_ALERT, DISPLAY_ALERT } from '../actions';
 
 const initialState = {
   name: '',
@@ -13,14 +16,24 @@ const initialState = {
 
 function Register() {
   const [state, setState] = useState(initialState);
+  const { isLoading, showAlert } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target);
+    const { name, email, password, isMember } = state;
+    if (!email || !password || (!isMember && !name)) {
+      dispatch({ type: DISPLAY_ALERT });
+      setTimeout(() => {
+        dispatch({
+          type: CLEAR_ALERT,
+        });
+      }, 2000);
+    }
   };
 
   const handleChange = (e) => {
-    console.log(e.target);
+    setState({ ...state, [e.target.name]: e.target.value });
   };
 
   const toggleMember = () => {
@@ -32,7 +45,7 @@ function Register() {
       <form className='form' onSubmit={onSubmit}>
         <Logo />
         <h3>{state.isMember ? 'Login' : 'Register'}</h3>
-        {state.showAlert && <Alert />}
+        {showAlert && <Alert />}
         {!state.isMember && (
           <FormRow
             type='text'
