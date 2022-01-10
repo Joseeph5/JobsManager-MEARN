@@ -10,7 +10,7 @@ const register = async (req, res, next) => {
 
   try {
     const user = await User.create(req.body);
-    res.status(201).json({ msg: 'register user' });
+    res.status(201).json({ msg: ' user is registered', user });
   } catch (error) {
     next(error);
   }
