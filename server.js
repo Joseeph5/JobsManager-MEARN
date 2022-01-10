@@ -1,6 +1,7 @@
 import express from 'express';
 import notFoundMiddleware from './middleware/not-found.js';
 import errorHandleMiddleware from './middleware/error-handler.js';
+import authRouter from './routers/authRoutes.js';
 import dotenv from 'dotenv';
 import connectDB from './db/connect.js';
 
@@ -12,12 +13,9 @@ const port = process.env.PORT || 5000;
 // express middleware
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  //   throw new Error('error ');
-  res.send('Hello World!');
-});
+app.use('/api/v1/auth', authRouter);
 
-// custom middle ware
+// custom middleware
 app.use(notFoundMiddleware);
 app.use(errorHandleMiddleware);
 
