@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
 import notFoundMiddleware from './middleware/not-found.js';

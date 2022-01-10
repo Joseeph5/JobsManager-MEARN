@@ -2,8 +2,18 @@ import { Link } from 'react-router-dom';
 import main from '../assets/images/secure_login.svg';
 import { Logo } from '../components';
 import Wrapper from '../assets/wrappers/LandingPage';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 function Landing() {
+  const fetchData = async () => {
+    const { data } = await axios.get('/api/v1/jobs');
+    console.log(data);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <Wrapper>
       <nav>
