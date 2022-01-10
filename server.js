@@ -1,4 +1,5 @@
 import express from 'express';
+import 'express-async-errors';
 import notFoundMiddleware from './middleware/not-found.js';
 import errorHandleMiddleware from './middleware/error-handler.js';
 import authRouter from './routers/authRoutes.js';

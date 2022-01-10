@@ -1,16 +1,32 @@
-const register = (req, res) => {
+import User from '../models/User.js';
+import { BadRequestError } from '../errors/index.js';
+
+const register = async (req, res, next) => {
   const { name, email, password } = req.body;
 
-  res.status(200).json({ msg: 'register user' });
+  if (!name || !email || !password) {
+    throw new BadRequestError('please provide all values');
+  }
+
+  try {
+    const user = await User.create(req.body);
+    res.status(201).json({ msg: 'register user' });
+  } catch (error) {
+    next(error);
+  }
 };
 
-const login = (req, res) => {
+const login = async (req, res) => {
   const { name, email, password } = req.body;
 
-  res.status(200).json({ msg: 'register user value' });
+  try {
+    res.status(200).json({ msg: 'register user value' });
+  } catch (error) {
+    next(error);
+  }
 };
 
-const updateUser = (req, res) => {
+const updateUser = async (req, res) => {
   const { name, email, password } = req.body;
 
   res.status(200).json({ msg: 'register user' });
