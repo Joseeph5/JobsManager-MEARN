@@ -6,11 +6,17 @@ import errorHandleMiddleware from './middleware/error-handler.js';
 import authRouter from './routers/authRoutes.js';
 import jobsRouter from './routers/jobsRoutes.js';
 import dotenv from 'dotenv';
+import morgan from 'morgan';
 import connectDB from './db/connect.js';
 
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
+
+// external middleware
+if (process.env.NODE_ENV !== 'production') {
+  app.use(morgan('dev'));
+}
 
 // express middleware
 app.use(express.json());
