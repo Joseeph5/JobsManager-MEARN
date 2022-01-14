@@ -1,13 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Wrapper from '../assets/wrappers/Navbar';
-import { AiFillHome } from 'react-icons/ai';
-import { FaAlignLeft, FaUserCircle, FaCaretDown } from 'react-icons/fa';
+import { FaAlignJustify, FaUserCircle, FaCaretDown } from 'react-icons/fa';
+import Logo from './Logo';
+import { useDispatch, useSelector } from 'react-redux';
+import { LOGOUT_USER, TOGGLE_SIDEBAR } from '../actions';
 
 function NavBar() {
+  const { user } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const [showLogout, setShowLogout] = useState(false);
+
+  const toggleSideBar = () => {
+    dispatch({ type: TOGGLE_SIDEBAR });
+  };
+
+  const removeUserFromLocalStorage = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('location');
+  };
+
+  const logoutUser = () => {
+    dispatch({ type: LOGOUT_USER });
+    removeUserFromLocalStorage();
+  };
+
   return (
     <Wrapper>
-      <h4>navbar</h4>
-      <AiFillHome />
+      <div className='nav-center'>
+        <button className='toggle-btn' onClick={toggleSideBar}>
+          <FaAlignJustify />
+        </button>
+        <div>
+          <Logo />
+          <h3 className='logo-text'>Dashboard</h3>
+        </div>
+        <div className='btn-container'>
+          <button className='btn' onClick={() => setShowLogout(!showLogout)}>
+            <FaUserCircle />
+            {user.name}
+            <FaCaretDown />
+          </button>
+          <div className={showLogout ? 'dropdown show-dropdown' : 'dropdown'}>
+            <button onClick={logoutUser} className='dropdown-btn'>
+              logout
+            </button>
+          </div>
+        </div>
+      </div>
     </Wrapper>
   );
 }

@@ -7,6 +7,8 @@ import {
   LOGIN_USER_BEGIN,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_ERROR,
+  TOGGLE_SIDEBAR,
+  LOGOUT_USER,
 } from './actions';
 
 const reducer = (state, action) => {
@@ -68,6 +70,16 @@ const reducer = (state, action) => {
         alertType: 'danger',
         alertText: action.payload.msg,
       };
+    case TOGGLE_SIDEBAR:
+      return { ...state, showSidebar: !state.showSidebar };
+    case LOGOUT_USER:
+      return {
+        ...state,
+        user: null,
+        token: null,
+        userLocation: '',
+      };
+
     default:
       return state;
   }

@@ -21,6 +21,7 @@ const initialState = {
   user: user ? JSON.parse(user) : null,
   token: token,
   userLocation: '',
+  showSideBar: false,
 };
 
 const store = createStore(reducer, initialState);

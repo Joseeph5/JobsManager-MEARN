@@ -30,9 +30,10 @@ function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const addUserToLocalStorage = ({ user, token, location }) => {
+  const addUserToLocalStorage = ({ user, token }) => {
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('token', token);
+    localStorage.setItem('location', JSON.stringify(user.location));
   };
 
   const registerUser = async (currentUser) => {
