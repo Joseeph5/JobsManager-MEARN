@@ -10,7 +10,7 @@ const errorHandle = (err, req, res, next) => {
   }
   if (err.code && err.code === 11000) {
     defaultError.statusCode = 400;
-    defaultError.msg = `${Object.keys(err.keyValue)} field has to be unique`;
+    defaultError.msg = `user is already a member`;
   }
 
   res.status(defaultError.statusCode).json({ error: defaultError });

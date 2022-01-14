@@ -8,6 +8,9 @@ import Wrapper from '../assets/wrappers/RegisterPage';
 import {
   CLEAR_ALERT,
   DISPLAY_ALERT,
+  LOGIN_USER_BEGIN,
+  LOGIN_USER_ERROR,
+  LOGIN_USER_SUCCESS,
   REGISTER_USER_BEGIN,
   REGISTER_USER_ERROR,
   REGISTER_USER_SUCCESS,
@@ -26,6 +29,11 @@ function Register() {
   const { isLoading, showAlert } = useSelector((state) => state);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const addUserToLocalStorage = ({ user, token, location }) => {
+    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('token', token);
+  };
 
   const registerUser = async (currentUser) => {
     dispatch({ type: REGISTER_USER_BEGIN });
@@ -48,6 +56,9 @@ function Register() {
 
       setTimeout(() => {
         navigate('/dashboard');
+        dispatch({
+          type: CLEAR_ALERT,
+        });
       }, 2000);
     } catch (error) {
       console.log(error.response.data);
@@ -63,9 +74,43 @@ function Register() {
     }
   };
 
-  const addUserToLocalStorage = ({ user, token, location }) => {
-    localStorage.setItem('user', JSON.stringify(user));
-    localStorage.setItem('token', token);
+  const loginUser = async (currentUser) => {
+    dispatch({ type: LOGIN_USER_BEGIN });
+
+    try {
+      const response = await axios.post('/api/v1/auth/login', currentUser);
+      console.log(response.data);
+      const { user, token } = response.data;
+      dispatch({
+        type: LOGIN_USER_SUCCESS,
+        payload: {
+          user,
+          token,
+        },
+      });
+      addUserToLocalStorage({
+        user,
+        token,
+      });
+
+      setTimeout(() => {
+        navigate('/dashboard');
+        dispatch({
+          type: CLEAR_ALERT,
+        });
+      }, 2000);
+    } catch (error) {
+      console.log(error.response.data);
+      dispatch({
+        type: LOGIN_USER_ERROR,
+        payload: { msg: error.response.data.error.msg },
+      });
+      setTimeout(() => {
+        dispatch({
+          type: CLEAR_ALERT,
+        });
+      }, 2000);
+    }
   };
 
   const onSubmit = (e) => {
@@ -82,10 +127,7 @@ function Register() {
     }
     const currentUser = { name, email, password };
     if (isMember) {
-      dispatch({
-        type: REGISTER_USER_ERROR,
-        payload: { msg: 'user is already a member' },
-      });
+      loginUser(currentUser);
       console.log();
     } else {
       registerUser(currentUser);
