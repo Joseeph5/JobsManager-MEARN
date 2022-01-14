@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate, Outlet } from 'react-router-dom';
+import Wrapper from '../assets/wrappers/SharedLayout';
 
 function Dashboard() {
   const { user } = useSelector((state) => state);
@@ -9,9 +10,13 @@ function Dashboard() {
     return <Navigate to='/' />;
   }
   return (
-    <div>
-      <h2>Dashboard is under development...</h2>
-    </div>
+    <Wrapper>
+      <nav>
+        <Link to='all-jobs'>all jobs</Link>
+        <Link to='add-job'>add jobs</Link>
+      </nav>
+      <Outlet />
+    </Wrapper>
   );
 }
 
