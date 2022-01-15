@@ -10,8 +10,8 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/dashboard' element={<Dashboard />}>
           <Route index element={<AllJobs />} />
-          <Route index path='stats' element={<Stats />} />
           <Route path='all-jobs' element={<AllJobs />} />
+          <Route path='stats' element={<Stats />} />
           <Route path='add-job' element={<AddJob />} />
           <Route path='profile' element={<Profile />} />
         </Route>
