@@ -2,6 +2,8 @@ import User from '../models/User.js';
 import { BadRequestError, UnauthenticatedError } from '../errors/index.js';
 import { StatusCodes } from 'http-status-codes';
 
+import bcrypt from 'bcryptjs';
+
 const register = async (req, res, next) => {
   const { name, email, password } = req.body;
 
@@ -36,11 +38,11 @@ const login = async (req, res, next) => {
   try {
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
-      throw new UnauthenticatedError('Invalid Credentials');
+      throw new UnauthenticatedError('Incorrect Email!');
     }
     const isPasswordCorrect = await user.comparePassword(password);
     if (!isPasswordCorrect) {
-      throw new UnauthenticatedError('Invalid Credentials');
+      throw new UnauthenticatedError('Incorrect Password');
     }
 
     const token = user.createJWT();
@@ -52,18 +54,30 @@ const login = async (req, res, next) => {
 };
 
 const updateUser = async (req, res) => {
-  const { email, name, lastName } = req.body;
+  let { email, name, lastName, location, password } = req.body;
   if (!email || !name || !lastName) {
-    throw new BadRequestError('Please provide all values sss');
+    throw new BadRequestError('Please provide all values');
+  }
+  if (password) {
+    const salt = await bcrypt.genSalt(10);
+    password = await bcrypt.hash(password, salt);
   }
 
   const user = await User.findOneAndUpdate(
     { _id: req.user.userId },
-    { $set: req.body },
+    { $set: { lastName, name, email, location, password } },
     {
       new: true,
     }
   );
+
+  // const user = await User.findOne({ _id: req.user.userId });
+
+  // user.email = email;
+  // user.name = name;
+  // user.lastName = lastName;
+
+  // await user.save();
 
   const token = user.createJWT();
   res.status(StatusCodes.OK).json({
