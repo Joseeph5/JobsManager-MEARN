@@ -3,6 +3,7 @@ import express from 'express';
 import 'express-async-errors';
 import notFoundMiddleware from './middleware/not-found.js';
 import errorHandleMiddleware from './middleware/error-handler.js';
+import authenticateUser from './middleware/auth.js';
 import authRouter from './routers/authRoutes.js';
 import jobsRouter from './routers/jobsRoutes.js';
 import dotenv from 'dotenv';
@@ -22,7 +23,7 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(express.json());
 
 app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/jobs', jobsRouter);
+app.use('/api/v1/jobs', authenticateUser, jobsRouter);
 
 // custom middleware
 app.use(notFoundMiddleware);
