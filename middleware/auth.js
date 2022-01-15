@@ -8,7 +8,7 @@ const auth = async (req, res, next) => {
   }
 
   const token = authHeader.slice(authHeader.indexOf(' ') + 1);
-
+  //   console.log('token', token);
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
     // console.log(payload);
