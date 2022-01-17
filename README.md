@@ -14,7 +14,7 @@ The app uses its own API to interact with the backend.
 
 ### Goal
 
-To create time tracker app that lets you track work hours across projects.
+To create job tracker app that lets you track work hours across projects.
 
 ### Features
 
@@ -40,4 +40,5 @@ Like I just mentioned this project is under development, if you find or see some
 1. Open a terminal and clone the repo using the following command: `git clone`
 2. Install the dependencies for the Back-end using the following command: `npm i`
 3. Install the dependencies for the Front-end using the following command: `cd client && npm i`
-4. and run the following command: `npm run dev`
+4. And run the following command: `npm start`
+5. Then visit http://localhost:5000/
