@@ -9,6 +9,10 @@ import jobsRouter from './routers/jobsRoutes.js';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import connectDB from './db/connect.js';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 dotenv.config();
 const app = express();
@@ -18,6 +22,8 @@ const port = process.env.PORT || 5000;
 if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
 }
+
+app.use(express.static(path.resolve(__dirname + '/client/build')));
 
 // express middleware
 app.use(express.json());
