@@ -7,7 +7,7 @@ import App from './App';
 // redux stuff
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import reducer from './reducer';
+import reducer from './store/reducer';
 
 // set as default
 const token = localStorage.getItem('token');

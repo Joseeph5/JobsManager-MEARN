@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+import { addUserToLocalStorage } from '../utils/shared';
 import { Logo, FormRow, Alert } from '../components';
 import Wrapper from '../assets/wrappers/RegisterPage';
 import {
@@ -14,27 +15,22 @@ import {
   REGISTER_USER_BEGIN,
   REGISTER_USER_ERROR,
   REGISTER_USER_SUCCESS,
-} from '../actions';
+} from '../store/actions';
 
 const initialState = {
   name: '',
   email: '',
   password: '',
-  isMember: false,
+  location: '',
+  isMember: true,
   showAlert: false,
 };
 
 function Register() {
   const [state, setState] = useState(initialState);
-  const { isLoading, showAlert } = useSelector((state) => state);
+  const { showAlert } = useSelector((state) => state);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const addUserToLocalStorage = ({ user, token }) => {
-    localStorage.setItem('user', JSON.stringify(user));
-    localStorage.setItem('token', token);
-    localStorage.setItem('location', JSON.stringify(user.location));
-  };
 
   const registerUser = async (currentUser) => {
     dispatch({ type: REGISTER_USER_BEGIN });
@@ -116,7 +112,7 @@ function Register() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const { name, email, password, isMember } = state;
+    const { name, location, email, password, isMember } = state;
     if (!email || !password || (!isMember && !name)) {
       dispatch({ type: DISPLAY_ALERT });
       setTimeout(() => {
@@ -126,7 +122,7 @@ function Register() {
       }, 2000);
       return;
     }
-    const currentUser = { name, email, password };
+    const currentUser = { name, location, email, password };
     if (isMember) {
       loginUser(currentUser);
       console.log();
@@ -150,12 +146,20 @@ function Register() {
         <h3>{state.isMember ? 'Login' : 'Register'}</h3>
         {showAlert && <Alert />}
         {!state.isMember && (
-          <FormRow
-            type='text'
-            name='name'
-            value={state.name}
-            handleChange={handleChange}
-          />
+          <>
+            <FormRow
+              type='text'
+              name='name'
+              value={state.name}
+              handleChange={handleChange}
+            />
+            <FormRow
+              type='text'
+              name='location'
+              value={state.location}
+              handleChange={handleChange}
+            />
+          </>
         )}
         <FormRow
           type='email'

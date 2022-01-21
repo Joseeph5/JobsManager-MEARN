@@ -3,7 +3,7 @@ import Wrapper from '../assets/wrappers/Navbar';
 import { FaAlignJustify, FaUserCircle, FaCaretDown } from 'react-icons/fa';
 import Logo from './Logo';
 import { useDispatch, useSelector } from 'react-redux';
-import { LOGOUT_USER, TOGGLE_SIDEBAR } from '../actions';
+import { LOGOUT_USER, TOGGLE_SIDEBAR } from '../store/actions';
 
 function NavBar() {
   const { user } = useSelector((state) => state);

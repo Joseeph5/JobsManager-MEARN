@@ -2,7 +2,7 @@ import Wrapper from '../assets/wrappers/SmallSidebar';
 import { FaTimes } from 'react-icons/fa';
 import Logo from './Logo';
 import { useSelector, useDispatch } from 'react-redux';
-import { TOGGLE_SIDEBAR } from '../actions';
+import { TOGGLE_SIDEBAR } from '../store/actions';
 import NavLinks from './NavLinks';
 
 function SmallSideBar() {
