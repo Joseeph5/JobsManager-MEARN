@@ -24,7 +24,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 // express middleware
 app.use(express.json());
-app.use(express.static(path.resolve(__dirname, './client/build')));
+// app.use(express.static(path.resolve(__dirname, './client/build')));
 
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/jobs', authenticateUser, jobsRouter);
