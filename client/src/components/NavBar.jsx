@@ -2,22 +2,18 @@ import React, { useState } from 'react';
 import Wrapper from '../assets/wrappers/Navbar';
 import { FaAlignJustify, FaUserCircle, FaCaretDown } from 'react-icons/fa';
 import Logo from './Logo';
+import useShared from '../utils/shared';
 import { useDispatch, useSelector } from 'react-redux';
 import { LOGOUT_USER, TOGGLE_SIDEBAR } from '../store/actions';
 
 function NavBar() {
   const { user } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const { removeUserFromLocalStorage } = useShared();
   const [showLogout, setShowLogout] = useState(false);
 
   const toggleSideBar = () => {
     dispatch({ type: TOGGLE_SIDEBAR });
-  };
-
-  const removeUserFromLocalStorage = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    localStorage.removeItem('location');
   };
 
   const logoutUser = () => {

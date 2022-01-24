@@ -1,33 +1,35 @@
 import { useState } from 'react';
 import { FormRow, Alert } from '../../components';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import Wrapper from '../../assets/wrappers/DashboardFormPage';
 import {
   CLEAR_ALERT,
   DISPLAY_ALERT,
+  LOGOUT_USER,
   UPDATE_USER_BEGIN,
   UPDATE_USER_ERROR,
   UPDATE_USER_SUCCESS,
 } from '../../store/actions';
-import { addUserToLocalStorage } from '../../utils/shared';
+import useShared from '../../utils/shared';
 
 function Profile() {
   const { user, showAlert, isLoading, token } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const { addUserToLocalStorage, removeUserFromLocalStorage, authService } = useShared();
   const [name, setName] = useState(user?.name);
   const [email, setEmail] = useState(user?.email);
   const [lastName, setLastName] = useState(user?.lastName);
   const [location, setLocation] = useState(user?.location);
 
+  const logoutUser = () => {
+    dispatch({ type: LOGOUT_USER });
+    removeUserFromLocalStorage();
+  };
+
   const updaterUser = async (currentUser) => {
     dispatch({ type: UPDATE_USER_BEGIN });
     try {
-      const { data } = await axios.patch('/api/v1/auth/updateUser', currentUser, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const { data } = await authService.patch('/auth/updateUser', currentUser);
       const { user, location } = data;
 
       dispatch({
@@ -44,15 +46,19 @@ function Profile() {
       console.log(data);
     } catch (error) {
       console.log(error.response);
-      dispatch({
-        type: UPDATE_USER_ERROR,
-        payload: { msg: error.response.data.error.msg },
-      });
-      setTimeout(() => {
+      if (error.response.status === 401) {
+        logoutUser();
+      } else {
         dispatch({
-          type: CLEAR_ALERT,
+          type: UPDATE_USER_ERROR,
+          payload: { msg: error.response.data.error.msg },
         });
-      }, 2000);
+        setTimeout(() => {
+          dispatch({
+            type: CLEAR_ALERT,
+          });
+        }, 2000);
+      }
     }
   };
 

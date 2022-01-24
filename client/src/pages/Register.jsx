@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import { addUserToLocalStorage } from '../utils/shared';
+import useShared from '../utils/shared';
 import { Logo, FormRow, Alert } from '../components';
 import Wrapper from '../assets/wrappers/RegisterPage';
 import {
@@ -29,6 +29,7 @@ const initialState = {
 function Register() {
   const [state, setState] = useState(initialState);
   const { showAlert } = useSelector((state) => state);
+  const { addUserToLocalStorage } = useShared();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
