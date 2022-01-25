@@ -8,6 +8,7 @@ import App from './App';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from './store/reducer';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 // set as default
 const token = localStorage.getItem('token');
@@ -20,11 +21,18 @@ const initialState = {
   alertType: '',
   user: user ? JSON.parse(user) : null,
   token: token,
-  userLocation: '',
+  userLocation: user.location || '',
   showSideBar: false,
+  isEditing: false,
+  editJobId: '',
+  position: '',
+  company: '',
+  jobLocation: '',
+  jobType: 'full-time',
+  status: 'pending',
 };
 
-const store = createStore(reducer, initialState);
+const store = createStore(reducer, initialState, composeWithDevTools());
 
 ReactDOM.render(
   <React.StrictMode>
