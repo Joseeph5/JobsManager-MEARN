@@ -21,10 +21,10 @@ function Profile() {
   const [lastName, setLastName] = useState(user?.lastName);
   const [location, setLocation] = useState(user?.location);
 
-  const logoutUser = () => {
-    dispatch({ type: LOGOUT_USER });
-    removeUserFromLocalStorage();
-  };
+    const logoutUser = () => {
+      dispatch({ type: LOGOUT_USER });
+      removeUserFromLocalStorage();
+    };
 
   const updaterUser = async (currentUser) => {
     dispatch({ type: UPDATE_USER_BEGIN });
