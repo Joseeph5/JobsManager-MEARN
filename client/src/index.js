@@ -21,7 +21,7 @@ const initialState = {
   alertType: '',
   user: user ? JSON.parse(user) : null,
   token: token,
-  userLocation: user.location || '',
+  userLocation: '',
   showSideBar: false,
   isEditing: false,
   editJobId: '',
