@@ -8,6 +8,6 @@ router.post('/register', register);
 
 router.post('/login', login);
 
-router.patch('/updateuser', authenticateUser, updateUser);
+// router.patch('/updateuser', authenticateUser, updateUser);
 
 export default router;
