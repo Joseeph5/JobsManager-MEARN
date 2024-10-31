@@ -1,4 +1,9 @@
 [build]
-  command = "npm run build"
+  functions = "netlify/functions"
   publish = "client/build"
-  functions = "functions"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api"
+  status = 200
+  force = true
